@@ -1,12 +1,10 @@
 {
-  "name": "loop",
+  "name": "loop-recur",
   "version": "1.0.0",
   "description": "",
   "main": "loop_recur.js",
   "dependencies": {
-    "asap": "^2.0.2",
-    "setimmediate": "^1.0.2",
-    "tripwire": "^0.9.0"
+    "setimmediate": "^1.0.2"
   },
   "devDependencies": {},
   "scripts": {
