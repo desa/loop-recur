@@ -9,6 +9,7 @@ npm install loop-recur
 
 ## Use
 
+### Basic factorial
 ```js
 var loop = require('loop-recur');
 
@@ -21,6 +22,21 @@ loop(function(n,fact) {
   } 
 })(6,1, function(result){
   console.log("FACTORIAL:", result); });
+```
+
+## Use recursion without the worry of `RangeError: Maximum call stack size exceeded`
+
+```js
+var loop = require('./loop_recur');
+
+loop(function(x){
+  console.log(x);
+  if (x < 100000) {
+    this.recur(x+1);
+  } else {
+    this.returning(x);
+  }
+})(0, function(val) { console.log(val); });
 ```
 
 ## Format
