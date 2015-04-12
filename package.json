@@ -1,7 +1,7 @@
 {
   "name": "loop-recur",
   "version": "1.0.0",
-  "description": "",
+  "description": "clojures loop recur for javascript",
   "main": "loop_recur.js",
   "dependencies": {
     "setimmediate": "^1.0.2"
