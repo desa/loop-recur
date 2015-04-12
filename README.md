@@ -1,5 +1,7 @@
 # Loop Recur
+
 **Note: At this moment this is a proof of concept library and is completely unstable.**
+
 `loop-recur` is an javascript implementation of [Clojures loop and recur](https://clojuredocs.org/clojure.core/loop).
 
 ## Installation
