@@ -1,6 +1,6 @@
 {
   "name": "loop-recur",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "clojures loop recur for javascript",
   "main": "loop_recur.js",
   "dependencies": {
