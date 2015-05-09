@@ -2,13 +2,14 @@ var recur = function recur() {
   var _fn = arguments[0] || null;
   var _cb = arguments[arguments.length -1] || null;
   var ctx = this;
+  var _bs = this.batchSize;
   ctx.cb = ctx.cb || _cb;
   var args = Array.prototype.slice.call(arguments, 1, arguments.length);
   if (ctx.done) {
     ctx.cb(args[0]);
   } else {
     setImmediate(function(cx,ars) {
-      var params = [_fn].concat(ars);
+      var params = [_bs,_fn].concat(ars);
       var loopBatch = batchLoop.apply(null,params);
       if (loopBatch.complete) {
         cx.cb(loopBatch.result[0]);
@@ -26,22 +27,25 @@ var returning = function returning() {
   return this.recur(val);
 };
 
-module.exports = function loop(fn) {
+module.exports = function loop() {
+  var batchSize = typeof arguments[0] === 'function' ? 100 : arguments[0];
+  var func = typeof arguments[0] === 'function' ? arguments[0] : arguments[1];
   if (this instanceof loop) {
     this.done = false;
+    this.batchSize = batchSize;
     this.returning = returning.bind(this);
-    this.recur = recur.bind(this, fn);
+    this.recur = recur.bind(this, func);
     return this.recur;
   } else {
-    return new loop(fn);
+    return new loop(batchSize, func);
   }
 };
 
 ////
 
-var batchLoop = function batchLoop(fn) {
-  var args = Array.prototype.slice.call(arguments, 1, arguments.length);
-  var batch = new Batch(100);
+var batchLoop = function batchLoop(bs, fn) {
+  var args = Array.prototype.slice.call(arguments, 2, arguments.length);
+  var batch = new Batch(bs);
   var func = fn.bind(batch);
   batch.fn = func
   batch.fn.complete = false;
@@ -54,7 +58,7 @@ var batchLoop = function batchLoop(fn) {
       return batch;
     }
   }
-  console.log("DONE");
+  //console.log("DONE");
   return batch;
 };
 
