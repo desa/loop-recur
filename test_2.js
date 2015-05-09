@@ -7,4 +7,4 @@ loop(function(x){
   } else {
     this.returning(x);
   }
-})(0, function(val) { console.log(val); });
+})(0, function(val) { console.log("THIS IS THE VAL", val); });
