@@ -39,26 +39,19 @@ module.exports = function loop(fn) {
 
 ////
 
-function batchLoop(fn) {
+var batchLoop = function batchLoop(fn) {
   var args = Array.prototype.slice.call(arguments, 1, arguments.length);
-//  console.log(args);
-//  console.log(args);
   var batch = new Batch(100);
   var func = fn.bind(batch);
   batch.fn = func
   batch.fn.complete = false;
   batch.args = args;
   batch.complete = false;
-//  console.log("WELCOME BATCH", batch);
   while (batch.count > 1 && !batch.complete) {
-//    console.log("BATCH COUNT", batch.count);
-//console.log(batch);
     batch = batch.next();
-    //complete = batch.fn.complete;
     batch.complete = !!batch.result;
     if (batch.complete) {
       return batch;
-      //break;
     }
   }
   console.log("DONE");
@@ -70,13 +63,9 @@ function Batch(n) {
 };
 
 Batch.prototype.next = function() {
-//  console.log("THIS", this);
-//  console.log("THIS.args", this.args);
   var fnc = this.fn;
   fnc = this.fn.bind(this);
   this.fn.complete = fnc.apply(this, this.args);
-//console.log(this.fn.complete);
-//  console.log(this);
   this.count--;
   return this;
 };
@@ -87,7 +76,7 @@ Batch.prototype.recur = function() {
 };
 
 Batch.prototype.returning = function() {
-  this.result = Array.prototype.slice.call(arguments)
+  this.result = Array.prototype.slice.call(arguments);
   return true;
-}
+};
 
