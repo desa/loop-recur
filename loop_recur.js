@@ -77,7 +77,7 @@ function batchLoop(fn) {
   var args = Array.prototype.slice.call(arguments, 1, arguments.length);
 //  console.log(args);
 //  console.log(args);
-  var batch = new Batch(1000);
+  var batch = new Batch(100);
   var func = fn.bind(batch);
   batch.fn = func
   batch.fn.complete = false;
