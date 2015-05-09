@@ -44,8 +44,8 @@ var recur = function recur() {
     setImmediate(function(cx,ars) {
       var params = [_fn].concat(ars);
       var loopBatch = batchLoop.apply(null,params);
-      if (loopBatch.fn.complete) {
-        cx.cb(loopBatch[0]);
+      if (loopBatch.complete) {
+        cx.cb(loopBatch.result[0]);
       } else {
         var batchParams = loopBatch.args;
         _fn.apply(cx, batchParams);
@@ -77,19 +77,22 @@ function batchLoop(fn) {
   var args = Array.prototype.slice.call(arguments, 1, arguments.length);
 //  console.log(args);
 //  console.log(args);
-  var batch = new Batch(100);
+  var batch = new Batch(1000);
   var func = fn.bind(batch);
   batch.fn = func
   batch.fn.complete = false;
   batch.args = args;
-  complete = false;
+  batch.complete = false;
 //  console.log("WELCOME BATCH", batch);
-  while (batch.count > 1 && !complete) {
+  while (batch.count > 1 && !batch.complete) {
 //    console.log("BATCH COUNT", batch.count);
+//console.log(batch);
     batch = batch.next();
-    complete = batch.fn.complete;
-    if (complete) {
-      break;
+    //complete = batch.fn.complete;
+    batch.complete = !!batch.result;
+    if (batch.complete) {
+      return batch;
+      //break;
     }
   }
   console.log("DONE");
@@ -106,7 +109,7 @@ Batch.prototype.next = function() {
   var fnc = this.fn;
   fnc = this.fn.bind(this);
   this.fn.complete = fnc.apply(this, this.args);
-//  console.log(this.fn.complete);
+//console.log(this.fn.complete);
 //  console.log(this);
   this.count--;
   return this;
