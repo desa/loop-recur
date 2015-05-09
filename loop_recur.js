@@ -1,37 +1,3 @@
-//
-//var recur = function recur() {
-//  var _fn = arguments[0] || null;
-//  var _cb = arguments[arguments.length -1] || null;
-//  var ctx = this;
-//  ctx.cb = ctx.cb || _cb;
-//  var args = Array.prototype.slice.call(arguments, 1, arguments.length);
-//  if (ctx.done) {
-//    ctx.cb(args[0]);
-//  } else {
-//    setImmediate(function(cx,ars) {
-//      _fn.apply(cx, ars);
-//    }, ctx,args);
-//  }
-//};
-//
-//var returning = function returning() {
-//  var val = arguments[0];
-//  this.done = true;
-//  return this.recur(val);
-//};
-//
-//module.exports = function loop(fn) {
-//  if (this instanceof loop) {
-//    this.done = false;
-//    this.returning = returning.bind(this);
-//    this.recur = recur.bind(this, fn);
-//    return this.recur;
-//  } else {
-//    return new loop(fn);
-//  }
-//};
-
-////
 var recur = function recur() {
   var _fn = arguments[0] || null;
   var _cb = arguments[arguments.length -1] || null;
